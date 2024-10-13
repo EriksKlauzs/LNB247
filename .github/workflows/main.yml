@@ -2,7 +2,7 @@ name: Post Daily Tweet
 
 on:
   schedule:
-    - cron: "24 8 * * *"  # Runs at 8:00 AM UTC every day
+    - cron: "20 8 * * *"  # Runs at 8:20 AM UTC every day
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
@@ -13,8 +13,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
       with:
-        # Fetch the full history of the repository, including the day_counter.txt
-        fetch-depth: 0
+        fetch-depth: 0  # Fetch the full history to ensure the latest main.py is used
+        ref: main        # Ensure you're using the correct branch (main)
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -32,7 +32,7 @@ jobs:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
       run: |
-        python main.py
+        python main.py  # Run the latest main.py from the repository
 
     - name: Commit updated day count
       run: |
