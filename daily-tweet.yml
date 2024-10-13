@@ -1,9 +1,10 @@
 name: Post Daily Tweet
 
-# This triggers the workflow to run at 8:00 AM UTC every day
+# This allows the workflow to run both on a schedule (daily) and manually
 on:
   schedule:
-    - cron: "0 8 * * *"
+    - cron: "0 8 * * *"  # Runs at 8:00 AM UTC every day
+  workflow_dispatch:  # Allows the workflow to be triggered manually
 
 jobs:
   post_tweet:
