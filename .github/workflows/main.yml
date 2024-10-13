@@ -2,7 +2,7 @@ name: Post Daily Tweet
 
 on:
   schedule:
-    - cron: "20 8 * * *"  # Runs at 8:00 AM UTC every day
+    - cron: "24 8 * * *"  # Runs at 8:00 AM UTC every day
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
