@@ -5,8 +5,8 @@ from requests_oauthlib import OAuth1
 # Load your keys and tokens from the environment variables
 API_KEY = os.environ['API_KEY']
 API_KEY_SECRET = os.environ['API_KEY_SECRET']
-ACCESS_TOKEN = os.environ['ACCESS_TOKEN']  # New access token with read/write permissions
-ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET']  # New access token secret with read/write permissions
+ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
+ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET']
 
 # Function to post a tweet using OAuth 1.0a User Context Authentication
 def post_tweet(tweet_text):
@@ -29,7 +29,33 @@ def post_tweet(tweet_text):
         print(f"Error sending tweet: {response.status_code}")
         print(response.json())
 
-# Example usage
+# Function to read the current day count from a file
+def read_day_count():
+    try:
+        with open("day_counter.txt", "r") as file:
+            day = int(file.read().strip())
+    except FileNotFoundError:
+        # If the file doesn't exist, start at day 0
+        day = 0
+    return day
+
+# Function to write the updated day count to the file
+def write_day_count(day):
+    with open("day_counter.txt", "w") as file:
+        file.write(str(day))
+
 if __name__ == "__main__":
-    # Post a simple tweet using OAuth 1.0a
-    post_tweet("Hello from my Twitter bot using OAuth 1.0a!")
+    # Read the current day count
+    day = read_day_count()
+
+    # Compose the tweet message with the current day
+    tweet_text = f"Diena {day}: Bibliotēka vēl nav atvērta 24/7"
+    
+    # Post the tweet
+    post_tweet(tweet_text)
+
+    # Increment the day count
+    day += 1
+
+    # Save the updated day count back to the file
+    write_day_count(day)
