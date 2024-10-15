@@ -23,7 +23,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install requests requests_oauthlib pyyaml
+        python -m pip install requests requests_oauthlib
 
     - name: Run the bot
       env:
