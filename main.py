@@ -1,6 +1,7 @@
 import os
 import requests
 from requests_oauthlib import OAuth1
+from datetime import datetime
 
 # Load your keys and tokens from the environment variables
 API_KEY = os.environ['API_KEY']
@@ -29,33 +30,22 @@ def post_tweet(tweet_text):
         print(f"Error sending tweet: {response.status_code}")
         print(response.json())
 
-# Function to read the current day count from a file
-def read_day_count():
-    try:
-        with open("day_counter.txt", "r") as file:
-            day = int(file.read().strip())
-    except FileNotFoundError:
-        # If the file doesn't exist, start at day 0
-        day = 0
-    return day
-
-# Function to write the updated day count to the file
-def write_day_count(day):
-    with open("day_counter.txt", "w") as file:
-        file.write(str(day))
+# Function to calculate the day count based on the hardcoded start date
+def calculate_day_count(start_date_str):
+    start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
+    current_date = datetime.now()
+    delta = current_date - start_date
+    return delta.days
 
 if __name__ == "__main__":
-    # Read the current day count
-    day = read_day_count()
+    # Hardcode the start date directly into the Python script
+    start_date_str = "2024-10-13"  # Change this to the actual start date
+
+    # Calculate the current day count based on the start date
+    day = calculate_day_count(start_date_str)
 
     # Compose the tweet message with the current day
     tweet_text = f"Diena {day}: Bibliotēka vēl nav atvērta 24/7"
     
     # Post the tweet
     post_tweet(tweet_text)
-
-    # Increment the day count
-    day += 1
-
-    # Save the updated day count back to the file
-    write_day_count(day)
